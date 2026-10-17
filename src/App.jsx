@@ -6,6 +6,11 @@ import './App.css'
 
 function App() {
   const [count, setCount] = useState(0)
+    const entry = {
+    title: "Solo Leveling",
+    status: "Currently Reading",
+    progress: 543
+  };
 
   return (
     <>
@@ -18,6 +23,11 @@ function App() {
         <div>
           <h1>MediaVault</h1>
           <p>Your personal media library.</p>
+          
+          <h2>{entry.title}</h2>
+          <p>Status: {entry.status}</p>
+          <p>Progress: Chapter {entry.progress}</p>
+          <MediaCard />
         </div>
         <button
           type="button"
@@ -115,6 +125,15 @@ function App() {
       <section id="spacer"></section>
     </>
   )
+}
+
+function MediaCard() {
+  return (
+    <div>
+      <h2>My Media Card</h2>
+      <p>This is my first reusable component.</p>
+    </div>
+  );
 }
 
 export default App
