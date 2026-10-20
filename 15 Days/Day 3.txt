@@ -1,0 +1,333 @@
+Terminal:
+
+Microsoft Windows [Version 10.0.19045.6466]
+(c) Microsoft Corporation. All rights reserved.
+
+D:\Media Vault>cd /d "D:\Media Vault"
+
+D:\Media Vault>npm list vite
+media-vault@0.0.0 D:\Media Vault
++-- @vitejs/plugin-react@6.1.2
+| `-- vite@8.3.4 deduped
+`-- vite@8.3.4
+
+
+D:\Media Vault>npm install tailwindcss @tailwindcss/vite
+
+added 11 packages, and audited 155 packages in 2m
+
+33 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+
+D:\Media Vault>npm list tailwindcss @tailwindcss/vite
+media-vault@0.0.0 D:\Media Vault
++-- @tailwindcss/vite@4.3.3
+| +-- @tailwindcss/node@4.3.3
+| | `-- tailwindcss@4.3.3 deduped
+| `-- tailwindcss@4.3.3 deduped
+`-- tailwindcss@4.3.3
+
+
+D:\Media Vault>git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   package-lock.json
+        modified:   package.json
+        modified:   src/App.jsx
+        modified:   src/index.css
+        modified:   vite.config.js
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+D:\Media Vault>git add .
+warning: in the working copy of 'package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/App.jsx', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'src/index.css', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'vite.config.js', LF will be replaced by CRLF the next time Git touches it
+
+D:\Media Vault>git commit
+Aborting commit due to empty commit message.
+
+D:\Media Vault>git commit
+Aborting commit due to empty commit message.
+
+D:\Media Vault>git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   package-lock.json
+        modified:   package.json
+        modified:   src/App.jsx
+        modified:   src/index.css
+        modified:   vite.config.js
+
+
+D:\Media Vault>git commit -m "docs: add project planning files"
+[main fc7c817] docs: add project planning files
+ 5 files changed, 638 insertions(+), 64 deletions(-)
+
+D:\Media Vault>git status
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+
+D:\Media Vault>git push
+Enumerating objects: 15, done.
+Counting objects: 100% (15/15), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (8/8), done.
+Writing objects: 100% (8/8), 5.62 KiB | 639.00 KiB/s, done.
+Total 8 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (5/5), completed with 5 local objects.
+To https://github.com/AnasSaifullahDev/MediaVault.git
+   96243fb..fc7c817  main -> main
+
+D:\Media Vault>git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+
+D:\Media Vault>npm run dev
+
+> media-vault@0.0.0 dev
+> vite
+
+9:08:33 AM [vite] (client) Re-optimizing dependencies because lockfile has changed
+
+  VITE v8.3.4  ready in 1801 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+o
+9:09:00 AM [vite] (client) hmr update /src/App.jsx, /src/index.css
+9:09:03 AM [vite] (client) hmr update /src/App.jsx, /src/index.css (x2)
+9:16:45 AM [vite] (client) hmr update /src/index.css
+
+Microsoft Windows [Version 10.0.19045.6466]
+(c) Microsoft Corporation. All rights reserved.
+
+D:\Media Vault>code .
+
+D:\Media Vault>npm run dev
+
+> media-vault@0.0.0 dev
+> vite
+
+
+  VITE v8.3.4  ready in 5952 ms
+
+  ➜  Local:   http://localhost:5173/
+  ➜  Network: use --host to expose
+  ➜  press h + enter to show help
+o
+12:25:50 AM [vite] (client) hmr update /src/App.jsx, /src/index.css
+12:29:37 AM [vite] (client) hmr update /src/App.jsx, /src/index.css (x2)
+12:32:29 AM [vite] (client) hmr update /src/App.jsx, /src/index.css (x3)
+12:32:56 AM [vite] (client) hmr update /src/App.jsx, /src/index.css (x4)
+12:35:02 AM [vite] (client) hmr update /src/App.jsx, /src/index.css (x5)
+12:35:48 AM [vite] (client) hmr update /src/App.jsx, /src/index.css (x6)
+12:36:23 AM [vite] (client) hmr update /src/App.jsx, /src/index.css (x7)
+12:41:27 AM [vite] (client) hmr update /src/App.jsx, /src/index.css (x8)
+12:43:36 AM [vite] (client) hmr update /src/App.jsx, /src/index.css (x9)
+12:46:55 AM [vite] (client) hmr update /src/App.jsx, /src/index.css (x10)
+12:47:34 AM [vite] (client) hmr update /src/App.jsx, /src/index.css (x11)
+12:50:12 AM [vite] (client) hmr update /src/index.css
+12:53:46 AM [vite] (client) hmr update /src/App.css, /src/index.css
+12:55:24 AM [vite] (client) hmr update /src/App.jsx, /src/index.css
+
+
+Code:
+
+App.jsx:
+
+import './App.css'
+
+function Sidebar() {
+  return (
+    <aside className="w-full lg:w-64 shrink-0 p-6 text-left">
+      <nav>
+        <ul>
+          <li><a href="#dashboard">Dashboard</a></li>
+          <li><a href="#entries">All Entries</a></li>
+          <li><a href="#media">Media</a></li>
+          <li><a href="#literature">Literature</a></li>
+        </ul>
+      </nav>
+    </aside>
+  )
+}
+
+function MediaCard({title, type, status, episode, totalEpisodes}) {
+  return (
+    <article className="bg-gray-800 p-4 rounded-lg">
+      <h2>{title}</h2>
+      <p>{type} • {status}</p>
+      <p>Episode {episode} / {totalEpisodes}</p>
+    </article>
+  )
+}
+
+function App() {
+  return (
+    <>
+      <header className="flex items-center justify-between p-6">        
+        <h1 className="text-3xl font-bold text-purple-500">MediaVault</h1>
+        <button type="button">Create</button>
+      </header>
+
+      <div className="flex flex-col lg:flex-row gap-6">
+
+        <Sidebar />
+
+        <main id="dashboard" className="flex-1 min-w-0 p-6 text-left">
+          <h1>Dashboard</h1>
+
+          <section id="entries" className="flex flex-col gap-4">
+            <h2>Latest Entries</h2>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <MediaCard 
+                title="Example Anime"
+                type="Anime"
+                status="In Progress"
+                episode={5}
+                totalEpisodes={12}
+                />
+                <MediaCard 
+                title="Example Movie"
+                type="Movie"
+                status="Completed"
+                episode={1}
+                totalEpisodes={1}
+                />
+              </div>
+          </section>
+        </main>
+      </div>
+    </>
+  )
+}
+          
+export default App
+
+index.css:
+
+@import "tailwindcss";
+
+:root {
+  --text: #6b6375;
+  --text-h: #08060d;
+  --bg: #fff;
+  --border: #e5e4e7;
+  --code-bg: #f4f3ec;
+  --accent: #aa3bff;
+  --accent-bg: rgba(170, 59, 255, 0.1);
+  --accent-border: rgba(170, 59, 255, 0.5);
+  --social-bg: rgba(244, 243, 236, 0.5);
+  --shadow:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #9ca3af;
+    --text-h: #f3f4f6;
+    --bg: #16171d;
+    --border: #2e303a;
+    --code-bg: #1f2028;
+    --accent: #c084fc;
+    --accent-bg: rgba(192, 132, 252, 0.15);
+    --accent-border: rgba(192, 132, 252, 0.5);
+    --social-bg: rgba(47, 48, 58, 0.5);
+    --shadow:
+      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+  }
+
+  #social .button-icon {
+    filter: invert(1) brightness(2);
+  }
+}
+
+body {
+  margin: 0;
+}
+
+
+#root {
+  width: 100%;
+  min-height: 100svh;
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+p {
+  margin: 0;
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: var(--code-bg);
+}
