@@ -15,15 +15,39 @@ function Sidebar() {
   )
 }
 
-function MediaCard({title, type, status, episode, totalEpisodes}) {
+function MediaCard({title, type, status, episode, totalEpisodes, rating}){
   return (
     <article className="bg-gray-800 p-4 rounded-lg">
       <h2>{title}</h2>
       <p>{type} • {status}</p>
-      <p>Episode {episode} / {totalEpisodes}</p>
+      {episode !== null && totalEpisodes !== null && (
+        <p>Episode {episode} / {totalEpisodes}</p>
+        )}
+      {rating !== null && <p>Rating: {rating}</p>}
     </article>
   )
 }
+
+const mediaEntries = [
+  {
+    id: 1,
+    title: "Example Anime",
+    type: "Anime",
+    status: "In Progress",
+    episode: 5,
+    totalEpisodes: 12,
+    rating: "Recommended",
+  },
+  {
+    id: 2,
+    title: "Example Movie",
+    type: "Movie",
+    status: "Completed",
+    episode: null,
+    totalEpisodes: null,
+    rating: null,
+  },
+]
 
 function App() {
   return (
@@ -44,20 +68,17 @@ function App() {
             <h2>Latest Entries</h2>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <MediaCard 
-                title="Example Anime"
-                type="Anime"
-                status="In Progress"
-                episode={5}
-                totalEpisodes={12}
-                />
-                <MediaCard 
-                title="Example Movie"
-                type="Movie"
-                status="Completed"
-                episode={1}
-                totalEpisodes={1}
-                />
+                {mediaEntries.map((entry) => (
+                  <MediaCard
+                    key={entry.id}
+                    title={entry.title}
+                    type={entry.type}
+                    status={entry.status}
+                    episode={entry.episode}
+                    totalEpisodes={entry.totalEpisodes}
+                    rating={entry.rating}
+                  />
+                ))}
               </div>
           </section>
         </main>
