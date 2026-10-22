@@ -24,19 +24,44 @@ function MediaCard({title,
                     rating,
                     progressUnit,
                     id,
+                    onProgressChange,
                     onStatusChange,
                     statusOptions}) {
   return (
     <article className="bg-gray-800 p-4 rounded-lg">
       <h2>{title}</h2>
       <p>{type} • {status}</p>
+
+        <label htmlFor={`status-${id}`}>Update Status</label>
+
+        <select
+          id={`status-${id}`}
+          value={status}
+          onChange={(event) => onStatusChange(id, event.target.value)}
+          className="block mt-2 p-2 rounded bg-gray-700 text-white"
+        >
+          {statusOptions.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
         {currentProgress !== null && (
           <p>
             {progressUnit} {currentProgress}
             {totalProgress !== null && ` / ${totalProgress}`}
           </p>
         )}
-      {rating !== null && <p>Rating: {rating}</p>}
+        {currentProgress !== null && (
+          <button
+            type="button"
+            onClick={() => onProgressChange(id, currentProgress + 1)}
+            className="mt-2 bg-purple-600 text-white px-3 py-1 rounded"
+          >
+            +1 Progress
+          </button>
+        )}
+        {rating !== null && <p>Rating: {rating}</p>}
     </article>
   )
 }
@@ -166,19 +191,44 @@ function App() {
     console.log('Type:', entryType)
     console.log('Status:', entryStatus)
 
-    resetForm()
     setIsCreateOpen(false)
-
-    function updateEntryStatus(targetId, newStatus) {
-      setMediaEntries((previousEntries) =>
-        previousEntries.map((entry) =>
-          entry.id === targetId
-            ? { ...entry, status: newStatus }
-            : entry
-        )
-      )
-    }
   }
+
+  function updateEntryStatus(targetId, newStatus) {
+    setMediaEntries((previousEntries) =>
+      previousEntries.map((entry) =>
+        entry.id === targetId
+          ? { ...entry, status: newStatus }
+          : entry
+      )
+    )
+  }
+
+  function updateEntryProgress(targetId, newProgress) {
+  setMediaEntries((previousEntries) =>
+    previousEntries.map((entry) => {
+      if (entry.id !== targetId) {
+        return entry
+      }
+
+      if (newProgress < 0) {
+        return entry
+      }
+
+      if (
+        entry.totalProgress !== null &&
+        newProgress > entry.totalProgress
+      ) {
+        return entry
+      }
+
+      return {
+        ...entry,
+        currentProgress: newProgress,
+      }
+    })
+  )
+}
 
   const filteredEntries = mediaEntries.filter((entry) => {
     return statusFilter === 'All' || entry.status === statusFilter
@@ -272,23 +322,6 @@ function App() {
                 </option>
               ))}
             </select>
-            
-            <p>Selected status: {entryStatus}</p>
-
-            <label htmlFor={`status-${id}`}>Update Status</label>
-
-            <select
-              id={`status-${id}`}
-              value={status}
-              onChange={(event) => onStatusChange(id, event.target.value)}
-              className="block mt-2 p-2 rounded bg-gray-700 text-white"
-            >
-              {statusOptions.map((option) => (
-                <option key={option} value={option}>
-                  {option}
-                </option>
-              ))}
-            </select>
 
             <button
               type="submit"
@@ -352,7 +385,8 @@ function App() {
                     rating={entry.rating}
                     progressUnit={entry.progressUnit}
                     id={entry.id}
-                    onStatusChange={updateEntryStatus}
+                    onStatusChange={updateEntryStatus}                    
+                    onProgressChange={updateEntryProgress}
                     statusOptions={statusOptions}
                   />
                 ))}
