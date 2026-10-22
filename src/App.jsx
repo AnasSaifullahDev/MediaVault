@@ -16,7 +16,16 @@ function Sidebar() {
   )
 }
 
-function MediaCard({title, type, status, currentProgress, totalProgress, rating, progressUnit}) {
+function MediaCard({title,
+                    type,
+                    status,
+                    currentProgress,
+                    totalProgress,
+                    rating,
+                    progressUnit,
+                    id,
+                    onStatusChange,
+                    statusOptions}) {
   return (
     <article className="bg-gray-800 p-4 rounded-lg">
       <h2>{title}</h2>
@@ -97,6 +106,7 @@ function App() {
   const [entryStatus, setEntryStatus] = useState('Planned')
   const [titleError, setTitleError] = useState('')
   const [mediaEntries, setMediaEntries] = useState(initialMediaEntries)
+  const [statusFilter, setStatusFilter] = useState('All')
 
   function validateTitle() {
     if (entryTitle.trim() === '') {
@@ -108,7 +118,16 @@ function App() {
     return true
   }
 
+  function resetForm() {
+    setEntryTitle('')
+    setEntryCategory('Media')
+    setEntryType('Anime')
+    setEntryStatus('Planned')
+    setTitleError('')
+  }
+
   function handleSubmit(event) {
+
   event.preventDefault()
 
   const isValid = validateTitle()
@@ -146,7 +165,24 @@ function App() {
     console.log('Category:', entryCategory)
     console.log('Type:', entryType)
     console.log('Status:', entryStatus)
+
+    resetForm()
+    setIsCreateOpen(false)
+
+    function updateEntryStatus(targetId, newStatus) {
+      setMediaEntries((previousEntries) =>
+        previousEntries.map((entry) =>
+          entry.id === targetId
+            ? { ...entry, status: newStatus }
+            : entry
+        )
+      )
+    }
   }
+
+  const filteredEntries = mediaEntries.filter((entry) => {
+    return statusFilter === 'All' || entry.status === statusFilter
+  })
 
   return (
     <>
@@ -239,6 +275,21 @@ function App() {
             
             <p>Selected status: {entryStatus}</p>
 
+            <label htmlFor={`status-${id}`}>Update Status</label>
+
+            <select
+              id={`status-${id}`}
+              value={status}
+              onChange={(event) => onStatusChange(id, event.target.value)}
+              className="block mt-2 p-2 rounded bg-gray-700 text-white"
+            >
+              {statusOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+
             <button
               type="submit"
               className="mt-4 bg-purple-500 text-white px-4 py-2 rounded"
@@ -248,7 +299,10 @@ function App() {
             
             <button
               type="button"
-              onClick={() => setIsCreateOpen(false)}
+              onClick={() => {
+                resetForm()
+                setIsCreateOpen(false)
+              }}
               className="mt-4 bg-gray-700 text-white px-4 py-2 rounded hover:bg-gray-600 transition-colors"
             >
               Back
@@ -269,8 +323,25 @@ function App() {
               
             <h2>Latest Entries</h2>
 
+            <label htmlFor="status-filter">Filter by Status</label>
+
+            <select
+              id="status-filter"
+              value={statusFilter}
+              onChange={(event) => setStatusFilter(event.target.value)}
+              className="bg-gray-700 text-white p-2 rounded"
+            >
+              <option value="All">All</option>
+
+              {statusOptions.map((status) => (
+                <option key={status} value={status}>
+                  {status}
+                </option>
+              ))}
+            </select>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {mediaEntries.map((entry) => (
+                {filteredEntries.slice(0, 5).map((entry) => (
                   <MediaCard
                     key={entry.id}
                     title={entry.title}
@@ -280,6 +351,9 @@ function App() {
                     totalProgress={entry.totalProgress}
                     rating={entry.rating}
                     progressUnit={entry.progressUnit}
+                    id={entry.id}
+                    onStatusChange={updateEntryStatus}
+                    statusOptions={statusOptions}
                   />
                 ))}
               </div>
