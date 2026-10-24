@@ -76,9 +76,9 @@ For example, if a user has read 35 chapters and the total is unknown, display "3
 
 - Current progress cannot exceed the known total, and the user can correct an incorrect total.
 - When the current progress reaches a known total, the application should automatically change the entry's status to Completed.
-- Increasing progress while an entry is On Hold does not automatically change its status. The user must manually choose a different status to resume it.
-- If progress decreases after an entry has been automatically or manually marked Completed, its status remains Completed until the user changes it manually.
+- Increasing progress while an entry is On Hold does not automatically change its status. The user must manually choose a different status to resume it but if it reach to mark total so it change its status and become Completed.
+- If progress decreases after an entry has been automatically or manually marked Completed, its status does not remains Completed. the user have to choose either "in progress, on hold, dropped" and if the user decline to choose it became completed and can't be decreased and if the user choose any of the three it became any of the three.
 - An entry cannot be manually marked Completed if its total progress is unknown or blank. The user must enter a valid total before marking it Completed.
 - If the user manually selects Completed before reaching the known total, the application must ask for confirmation and explain that confirming will set current progress equal to total progress.
 - If the user confirms, the application must set current progress equal to the known total and mark the entry as Completed. If the user declines, the status and progress must remain unchanged.
-- If the total progress is increased so that current progress is less than the new total, an entry marked Completed must automatically change to In Progress.
+- If the total progress is increased so that current progress is less than the new total, an entry marked Completed must ask user to shoose "In Progress, On Hold, Dropped" and if the user decline to choose it became completed and can't be increased and if the user choose any of the three it became any of the three.
