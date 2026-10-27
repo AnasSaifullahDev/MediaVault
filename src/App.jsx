@@ -16,18 +16,21 @@ function Sidebar() {
   )
 }
 
-function MediaCard({title,
-                    type,
-                    status,
-                    currentProgress,
-                    totalProgress,
-                    rating,
-                    progressUnit,
-                    id,
-                    onProgressChange,
-                    onStatusChange,
-                    onTotalChange,
-                    statusOptions}) {
+function MediaCard({
+  title,
+  type,
+  status,
+  currentProgress,
+  totalProgress,
+  rating,
+  progressUnit,
+  id,
+  onProgressChange,
+  onStatusChange,
+  onTotalChange,
+  onDelete,
+  statusOptions,
+}) {
   
   const [editedTotal, setEditedTotal] = useState(
     totalProgress === null ? '' : String(totalProgress)
@@ -109,20 +112,20 @@ function MediaCard({title,
         
             <button
               type="button"
-            onClick={() => {
-              const newTotal =
-                editedTotal.trim() === ''
-                  ? null
-                  : Number(editedTotal)
-            
-              const accepted = onTotalChange(id, newTotal)
-            
-              if (!accepted) {
-                setEditedTotal(
-                  totalProgress === null ? '' : String(totalProgress)
-                )
-              }
-            }}
+              onClick={() => {
+                const newTotal =
+                  editedTotal.trim() === ''
+                    ? null
+                    : Number(editedTotal)
+              
+                const accepted = onTotalChange(id, newTotal)
+              
+                if (!accepted) {
+                  setEditedTotal(
+                    totalProgress === null ? '' : String(totalProgress)
+                  )
+                }
+              }}
               className="mt-2 bg-purple-600 text-white px-3         py-1 rounded"
             >
               Save Total
@@ -147,6 +150,13 @@ function MediaCard({title,
             +1 Progress
           </button>
         )}
+        <button
+          type="button"
+          onClick={() => onDelete(id)}
+          className="mt-2 ml-2 rounded bg-red-600 px-3 py-1 text-white"
+        >
+          Delete
+        </button>
         {rating !== null && <p>Rating: {rating}</p>}
     </article>
   )
@@ -227,12 +237,95 @@ function App() {
   const [entryType, setEntryType] = useState('Anime')
   const [entryStatus, setEntryStatus] = useState('Planned')
   const [titleError, setTitleError] = useState('')
-  const [mediaEntries, setMediaEntries] = useState(initialMediaEntries)
+  const [mediaEntries, setMediaEntries] = useState(loadMediaEntries)
   const [statusFilter, setStatusFilter] = useState('All')
   const [entryCurrentProgress, setEntryCurrentProgress] = useState('')
   const [entryTotalProgress, setEntryTotalProgress] = useState('')
   const selectedProgressUnit = progressUnits[entryType] ?? 'Unit'
-
+  
+  function loadMediaEntries() {
+    try {
+      const savedEntries = localStorage.getItem('mediaEntries')
+    
+      if (savedEntries === null) {
+        return initialMediaEntries
+      }
+    
+      const parsedEntries = JSON.parse(savedEntries)
+    
+      if (!Array.isArray(parsedEntries)) {
+        return initialMediaEntries
+      }
+          
+      return parsedEntries.filter((entry) => {
+        if (
+          entry === null ||
+          typeof entry !== 'object' ||
+          Array.isArray(entry)
+        ) {
+          return false
+        }
+      
+        const validId =
+          (typeof entry.id === 'string' && entry.id.trim() !== '') ||
+          (typeof entry.id === 'number' && Number.isFinite(entry.id))
+      
+        const validTitle =
+          typeof entry.title === 'string' &&
+          entry.title.trim() !== ''
+      
+        const validType =
+          typeof entry.type === 'string' &&
+          Object.values(typeOptions).flat().includes(entry.type)
+      
+        const validStatus =
+          statusOptions.includes(entry.status)
+      
+        const validCurrentProgress =
+          entry.currentProgress === null ||
+          (
+            Number.isInteger(entry.currentProgress) &&
+            entry.currentProgress >= 0
+          )
+        
+        const validTotalProgress =
+          entry.totalProgress === null ||
+          (
+            Number.isInteger(entry.totalProgress) &&
+            entry.totalProgress > 0
+          )
+        
+        const validProgressRange =
+          entry.currentProgress === null ||
+          entry.totalProgress === null ||
+          entry.currentProgress <= entry.totalProgress
+        
+        return (
+          validId &&
+          validTitle &&
+          validType &&
+          validStatus &&
+          validCurrentProgress &&
+          validTotalProgress &&
+          validProgressRange
+        )
+      })
+    } catch (error) {
+      console.error('Could not load media entries:', error)
+      return initialMediaEntries
+    }
+  }
+  
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        'mediaEntries',
+        JSON.stringify(mediaEntries)
+      )
+    } catch (error) {
+      console.error('Could not save media entries:', error)
+    }
+  }, [mediaEntries])
 
   function validateTitle() {
     if (entryTitle.trim() === '') {
@@ -419,7 +512,7 @@ function App() {
       previousEntries.map((entry) => {
         if (entry.id !== targetId) return entry
 
-        if (!Number.isFinite(newProgress) ||  newProgress < 0) {
+        if (!Number.isInteger(newProgress) || newProgress < 0) {
           return entry
         }
 
@@ -528,6 +621,26 @@ function App() {
     )
 
     return true
+  }
+
+  function deleteEntry(targetId) {
+    const entry = mediaEntries.find(
+      (item) => item.id === targetId
+    )
+
+    if (!entry) return
+
+    const confirmed = window.confirm(
+      `Delete "${entry.title}"?\n\nThis action cannot be undone.`
+    )
+
+    if (!confirmed) return
+
+    setMediaEntries((previousEntries) =>
+      previousEntries.filter(
+        (item) => item.id !== targetId
+      )
+    )
   }
 
   function requestProgressChange(targetId, newProgress)   {
@@ -781,6 +894,7 @@ function App() {
                     onStatusChange={updateEntryStatus}
                     onProgressChange={requestProgressChange}
                     onTotalChange={updateEntryTotal}
+                    onDelete={deleteEntry}
                     statusOptions={statusOptions}
                   />
                 ))}
